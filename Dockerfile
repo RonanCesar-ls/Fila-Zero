@@ -1,11 +1,11 @@
-
-FROM gradle:8.5-jdk21 AS build
+FROM eclipse-temurin:25-jdk-jammy AS build
 WORKDIR /app
 COPY . .
-RUN gradle clean build -x test
 
+RUN chmod +x gradlew
+RUN ./gradlew clean build -x test
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-jammy
 WORKDIR /app
 COPY --from=build /app/build/libs/*-SNAPSHOT.jar app.jar
 EXPOSE 8080
